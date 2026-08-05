@@ -1,0 +1,73 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: gen-m-mysql
+    restart: unless-stopped
+
+    environment:
+      MYSQL_DATABASE: gen_m
+      MYSQL_USER: gen_m_user
+      MYSQL_PASSWORD: change_this_password
+      MYSQL_ROOT_PASSWORD: change_root_password
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - gen_m_mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+    networks:
+      - gen_m_network
+
+  backend:
+    build:
+      context: ./backend
+
+    container_name: gen-m-backend
+    restart: unless-stopped
+
+    env_file:
+      - ./backend/.env
+
+    ports:
+      - "8000:8000"
+
+    volumes:
+      - ./backend/app:/app/app
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    command:
+      [
+        "uvicorn",
+        "app.main:app",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8000",
+        "--reload"
+      ]
+
+    networks:
+      - gen_m_network
+
+volumes:
+  gen_m_mysql_data:
+
+networks:
+  gen_m_network:
+    driver: bridge
