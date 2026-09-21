@@ -22,4 +22,6 @@ htmlcov/
 
 # OS
 Thumbs.db
-desktop.ini
+desktop.ini.venv/
+.ruff_cache/
+.mypy_cache/
