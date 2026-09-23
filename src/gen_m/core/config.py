@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     app_debug: bool = True
 
     secret_key: str
+    algorithm: str = "HS256"
     access_token_expire_minutes: int = 30
 
     mysql_host: str = "localhost"
