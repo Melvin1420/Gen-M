@@ -8,3 +8,4 @@ python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 alembic==1.13.2python-multipart==<version from above>
 bcrypt<4.1
+python-multipart==0.0.9
