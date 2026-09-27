@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gen-M — Sign in</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <main class="auth-page">
+    <div class="auth-card">
+      <h1>Gen-M</h1>
+      <p class="subtitle">Sign in to continue</p>
+
+      <form id="login-form" novalidate>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" autocomplete="username" required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autocomplete="current-password" required />
+
+        <p id="error-message" class="error-message" hidden></p>
+
+        <button type="submit" id="submit-btn">Sign in</button>
+      </form>
+
+      <div id="success-message" class="success-message" hidden>
+        <p id="signed-in-as"></p>
+        <button type="button" id="sign-out-btn">Sign out</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/login.js"></script>
+</body>
+</html>
