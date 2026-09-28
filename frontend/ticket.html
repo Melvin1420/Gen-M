@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gen-M — Ticket</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-logo">Gen-M</div>
+      <nav class="sidebar-nav">
+        <a href="/queue.html" class="nav-item active">Tickets</a>
+        <span class="nav-item disabled" title="Coming soon">Assets</span>
+        <span class="nav-item disabled" title="Admin only, coming soon">Departments</span>
+        <span class="nav-item disabled" title="Admin only, coming soon">Users</span>
+      </nav>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div class="topbar-title">Ticket details</div>
+        <div class="topbar-user">
+          <span id="current-user"></span>
+          <button type="button" id="sign-out-btn">Sign out</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <a href="/queue.html" class="back-link">&larr; Back to tickets</a>
+        <p id="load-error" class="error-message" hidden></p>
+
+        <section id="ticket-view" hidden>
+          <div class="ticket-header">
+            <h1 id="ticket-title"></h1>
+            <div id="ticket-badges" class="ticket-badges"></div>
+          </div>
+
+          <dl id="ticket-meta" class="meta-grid"></dl>
+          <p id="ticket-description" class="ticket-description"></p>
+
+          <form id="edit-form" class="panel" hidden>
+            <h2>Update ticket</h2>
+
+            <div id="text-fields">
+              <label for="edit-title">Title</label>
+              <input type="text" id="edit-title" />
+              <label for="edit-description">Description</label>
+              <textarea id="edit-description" rows="4"></textarea>
+            </div>
+
+            <div id="staff-fields" hidden>
+              <label for="edit-status">Status</label>
+              <select id="edit-status">
+                <option value="open">Open</option>
+                <option value="in_progress">In progress</option>
+                <option value="resolved">Resolved</option>
+                <option value="closed">Closed</option>
+              </select>
+
+              <label for="edit-priority">Priority</label>
+              <select id="edit-priority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+                <option value="urgent">Urgent</option>
+              </select>
+
+              <div class="assign-row">
+                <span id="assignee-text"></span>
+                <button type="button" id="assign-btn" class="secondary"></button>
+              </div>
+            </div>
+
+            <p id="save-message" class="success-note" hidden></p>
+            <p id="save-error" class="error-message" hidden></p>
+            <button type="submit" id="save-btn">Save changes</button>
+          </form>
+
+          <section class="panel">
+            <h2>Messages</h2>
+            <ul id="message-list" class="message-list"></ul>
+            <p id="messages-empty" class="empty-state" hidden>No messages yet.</p>
+
+            <form id="message-form">
+              <textarea id="message-input" rows="3" placeholder="Write a message..." aria-label="Message"></textarea>
+              <p id="message-error" class="error-message" hidden></p>
+              <button type="submit" id="message-btn">Send</button>
+            </form>
+          </section>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/shell.js"></script>
+  <script src="/js/ticket.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gen-M — Tickets</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-logo">Gen-M</div>
+      <nav class="sidebar-nav">
+        <a href="/queue.html" class="nav-item active">Tickets</a>
+        <span class="nav-item disabled" title="Coming soon">Assets</span>
+        <span class="nav-item disabled" title="Admin only, coming soon">Departments</span>
+        <span class="nav-item disabled" title="Admin only, coming soon">Users</span>
+      </nav>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div class="topbar-title">Ticket queue</div>
+        <div class="topbar-user">
+          <span id="current-user"></span>
+          <button type="button" id="sign-out-btn">Sign out</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <p id="load-error" class="error-message" hidden></p>
+        <p id="empty-state" class="empty-state" hidden>No tickets to show.</p>
+
+        <table id="ticket-table" class="data-table" hidden>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="ticket-table-body"></tbody>
+        </table>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/shell.js"></script>
+  <script src="/js/queue.js"></script>
+</body>
+</html>
