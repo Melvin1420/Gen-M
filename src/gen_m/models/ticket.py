@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import enum
-from datetime import datetime
-from typing import TYPE_CHECKING 
+from datetime import datetime, timezone
+from typing import TYPE_CHECKING
 
-from sqlalchemy import DateTime, Enum, ForeignKey, String, Text, func
+from sqlalchemy import DateTime, Enum, ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from gen_m.database.base import Base
@@ -12,8 +12,9 @@ from gen_m.database.base import Base
 if TYPE_CHECKING:
     from gen_m.models.asset import Asset
     from gen_m.models.department import Department
-    from gen_m.models.ticket_message import TicketMessage 
+    from gen_m.models.ticket_message import TicketMessage
     from gen_m.models.user import User
+
 
 class TicketStatus(str, enum.Enum):
     OPEN = "open"
@@ -21,14 +22,16 @@ class TicketStatus(str, enum.Enum):
     RESOLVED = "resolved"
     CLOSED = "closed"
 
+
 class TicketPriority(str, enum.Enum):
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
     URGENT = "urgent"
 
+
 class Ticket(Base):
-    """A Support Ticket, auto-routed to a department queue by category"""
+    """A support ticket, auto-routed to a department queue by category."""
 
     __tablename__ = "tickets"
 
@@ -48,9 +51,13 @@ class Ticket(Base):
     department_id: Mapped[int] = mapped_column(ForeignKey("departments.id"), nullable=False)
     asset_id: Mapped[int | None] = mapped_column(ForeignKey("assets.id"))
 
-    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc)
+    )
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime, server_default=func.now(), onupdate=func.now()
+        DateTime,
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
     )
     resolved_at: Mapped[datetime | None] = mapped_column(DateTime)
 
@@ -68,4 +75,3 @@ class Ticket(Base):
 
     def __repr__(self) -> str:
         return f"<Ticket id={self.id} status={self.status.value} priority={self.priority.value}>"
-

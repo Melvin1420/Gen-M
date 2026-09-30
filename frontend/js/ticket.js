@@ -115,6 +115,9 @@
     addMeta("Assigned to", userLabel(ticket.assigned_agent_id));
     addMeta("Created", formatDateTime(ticket.created_at));
     addMeta("Last updated", formatDateTime(ticket.updated_at));
+    if (ticket.resolved_at) {
+      addMeta("Resolved", formatDateTime(ticket.resolved_at));
+    }
 
     const staff = isStaff();
     const textEditable = canEditText();
