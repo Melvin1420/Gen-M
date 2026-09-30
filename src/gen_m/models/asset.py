@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import enum
-from datetime import date, datetime
-from typing import TYPE_CHECKING 
+from datetime import date, datetime, timezone
+from typing import TYPE_CHECKING
 
-from sqlalchemy import Date, DateTime, Enum, ForeignKey, String, func
+from sqlalchemy import Date, DateTime, Enum, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from gen_m.database.base import Base
@@ -14,14 +14,16 @@ if TYPE_CHECKING:
     from gen_m.models.ticket import Ticket
     from gen_m.models.user import User
 
+
 class AssetStatus(str, enum.Enum):
     IN_USE = "in_use"
     IN_STORAGE = "in_storage"
     UNDER_REPAIR = "under_repair"
     RETIRED = "retired"
 
+
 class Asset(Base):
-    """A tracked piece of equipment (laptop, monitor, phone, etc.)."""
+    """A tracked piece of IT equipment (laptop, monitor, phone, etc.)."""
 
     __tablename__ = "assets"
 
@@ -40,9 +42,13 @@ class Asset(Base):
     purchase_date: Mapped[date | None] = mapped_column(Date)
     warranty_expiry: Mapped[date | None] = mapped_column(Date)
 
-    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(timezone.utc)
+    )
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime, server_default=func.now(), onupdate=func.now()
+        DateTime,
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
     )
 
     assigned_to: Mapped["User | None"] = relationship()
