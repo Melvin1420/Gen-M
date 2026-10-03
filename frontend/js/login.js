@@ -1,25 +1,12 @@
 (function () {
+  if (isLoggedIn()) {
+    window.location.href = "/dashboard.html";
+    return;
+  }
+
   const form = document.getElementById("login-form");
   const errorEl = document.getElementById("error-message");
   const submitBtn = document.getElementById("submit-btn");
-  const successEl = document.getElementById("success-message");
-  const signedInAsEl = document.getElementById("signed-in-as");
-  const signOutBtn = document.getElementById("sign-out-btn");
-
-  async function showSignedInState() {
-    try {
-      const user = await getCurrentUser();
-      form.hidden = true;
-      successEl.hidden = false;
-      signedInAsEl.textContent = `Signed in as ${user.email} (${user.role}).`;
-    } catch (err) {
-      clearToken();
-    }
-  }
-
-  if (isLoggedIn()) {
-    showSignedInState();
-  }
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -39,21 +26,12 @@
 
     try {
       await login(email, password);
-      await showSignedInState();
+      window.location.href = "/dashboard.html";
     } catch (err) {
       errorEl.textContent = err.message || "Sign in failed.";
       errorEl.hidden = false;
       submitBtn.disabled = false;
       submitBtn.textContent = "Sign in";
     }
-  });
-
-  signOutBtn.addEventListener("click", () => {
-    clearToken();
-    form.hidden = false;
-    successEl.hidden = true;
-    form.reset();
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Sign in";
   });
 })();
