@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gen-M — Tickets</title>
+  <title>Gen-M — Dashboard</title>
   <link rel="stylesheet" href="/css/style.css" />
   <link rel="stylesheet" href="/css/app.css" />
 </head>
@@ -12,8 +12,8 @@
     <aside class="sidebar">
       <div class="sidebar-logo">Gen-M</div>
       <nav class="sidebar-nav">
-        <a href="/dashboard.html" class="nav-item">Dashboard</a>
-        <a href="/queue.html" class="nav-item active">Tickets</a>
+        <a href="/dashboard.html" class="nav-item active">Dashboard</a>
+        <a href="/queue.html" class="nav-item">Tickets</a>
         <span class="nav-item disabled" title="Coming soon">Assets</span>
         <span class="nav-item disabled" title="Admin only, coming soon">Departments</span>
         <span class="nav-item disabled" title="Admin only, coming soon">Users</span>
@@ -22,7 +22,7 @@
 
     <div class="main">
       <header class="topbar">
-        <div class="topbar-title">Ticket queue</div>
+        <div class="topbar-title">Dashboard</div>
         <div class="topbar-user">
           <span id="current-user"></span>
           <button type="button" id="sign-out-btn">Sign out</button>
@@ -31,26 +31,29 @@
 
       <main class="content">
         <p id="load-error" class="error-message" hidden></p>
-        <p id="empty-state" class="empty-state" hidden>No tickets to show.</p>
 
-        <table id="ticket-table" class="data-table" hidden>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Category</th>
-              <th>Priority</th>
-              <th>Status</th>
-              <th>Created</th>
-            </tr>
-          </thead>
-          <tbody id="ticket-table-body"></tbody>
-        </table>
+        <div class="stat-row">
+          <div class="stat-card">
+            <span class="stat-value" id="stat-total">0</span>
+            <span class="stat-label">Needs attention</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="stat-urgent">0</span>
+            <span class="stat-label">Urgent</span>
+          </div>
+        </div>
+
+        <section class="panel">
+          <h2>Needs your attention</h2>
+          <p id="empty-state" class="empty-state" hidden>Nothing needs your attention right now.</p>
+          <ul id="attention-list" class="attention-list" hidden></ul>
+        </section>
       </main>
     </div>
   </div>
 
   <script src="/js/api.js"></script>
   <script src="/js/shell.js"></script>
-  <script src="/js/queue.js"></script>
+  <script src="/js/dashboard.js"></script>
 </body>
 </html>
