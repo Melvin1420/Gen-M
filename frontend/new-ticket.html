@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gen-M — Tickets</title>
+  <title>Gen-M — New Ticket</title>
   <link rel="stylesheet" href="/css/style.css" />
   <link rel="stylesheet" href="/css/app.css" />
 </head>
@@ -22,10 +22,7 @@
 
     <div class="main">
       <header class="topbar">
-        <div class="topbar-left">
-          <span class="topbar-title">Ticket queue</span>
-          <a href="/new-ticket.html" class="btn-new-ticket">+ New Ticket</a>
-        </div>
+        <div class="topbar-title">New ticket</div>
         <div class="topbar-user">
           <span id="current-user"></span>
           <button type="button" id="sign-out-btn">Sign out</button>
@@ -33,27 +30,39 @@
       </header>
 
       <main class="content">
+        <a href="/queue.html" class="back-link">&larr; Back to tickets</a>
         <p id="load-error" class="error-message" hidden></p>
-        <p id="empty-state" class="empty-state" hidden>No tickets to show.</p>
 
-        <table id="ticket-table" class="data-table" hidden>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Category</th>
-              <th>Priority</th>
-              <th>Status</th>
-              <th>Created</th>
-            </tr>
-          </thead>
-          <tbody id="ticket-table-body"></tbody>
-        </table>
+        <form id="new-ticket-form" class="panel">
+          <label for="title">Title</label>
+          <input type="text" id="title" required />
+
+          <label for="category">Category</label>
+          <input type="text" id="category" placeholder="e.g. hardware, software, access" required />
+
+          <label for="department">Department</label>
+          <select id="department" required></select>
+
+          <label for="priority">Priority</label>
+          <select id="priority">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+            <option value="urgent">Urgent</option>
+          </select>
+
+          <label for="description">Description</label>
+          <textarea id="description" rows="5" required></textarea>
+
+          <p id="submit-error" class="error-message" hidden></p>
+          <button type="submit" id="submit-btn">Create ticket</button>
+        </form>
       </main>
     </div>
   </div>
 
   <script src="/js/api.js"></script>
   <script src="/js/shell.js"></script>
-  <script src="/js/queue.js"></script>
+  <script src="/js/new-ticket.js"></script>
 </body>
 </html>
