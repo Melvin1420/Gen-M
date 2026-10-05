@@ -48,8 +48,19 @@ async function readError(response, fallback) {
   return fallback;
 }
 
+// The API returns naive UTC timestamps with no "Z"/offset marker (see GEN-16
+// and GEN-19). Without one, JavaScript's Date parser treats a date-time
+// string as LOCAL time, not UTC, which silently shows the wrong wall-clock
+// hour to anyone not in the exact UTC+0 zone. Force UTC interpretation
+// explicitly instead of trusting the string alone. If the API ever starts
+// sending a real zone marker, this is a no-op - the check below skips it.
+function parseApiDate(isoString) {
+  const hasZone = /Z$|[+-]\d{2}:\d{2}$/.test(isoString);
+  return new Date(hasZone ? isoString : `${isoString}Z`);
+}
+
 function formatDate(isoString) {
-  const date = new Date(isoString);
+  const date = parseApiDate(isoString);
   return date.toLocaleDateString(undefined, {
     year: "numeric",
     month: "short",
@@ -58,7 +69,7 @@ function formatDate(isoString) {
 }
 
 function formatDateTime(isoString) {
-  const date = new Date(isoString);
+  const date = parseApiDate(isoString);
   return date.toLocaleString(undefined, {
     year: "numeric",
     month: "short",
