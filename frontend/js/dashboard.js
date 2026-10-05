@@ -57,7 +57,7 @@
       active.sort((a, b) => {
         const rankDiff = PRIORITY_RANK[a.priority] - PRIORITY_RANK[b.priority];
         if (rankDiff !== 0) return rankDiff;
-        return new Date(a.created_at) - new Date(b.created_at);
+        return parseApiDate(a.created_at) - parseApiDate(b.created_at);
       });
 
       totalCountEl.textContent = String(active.length);
